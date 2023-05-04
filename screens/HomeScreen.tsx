@@ -8,8 +8,9 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import Products from '../components/Products';
+import axios from 'axios';
 
 export interface Item {
   id: number;
@@ -25,6 +26,29 @@ const data: Item[] = [
 ];
 
 const HomeScreenScreen = ({navigation}: any) => {
+  // const [data, setData] = useState([]);
+  // const [filteredData, setFilteredData] = useState([]);
+  // const [loading, setLoading] = useState(true);
+  // useEffect(() => {
+  //   axios
+  //     .get('https://northwind.vercel.app/api/categories/')
+  //     .then(res => {
+  //       setData(res.data);
+  //       setFilteredData(res.data);
+  //       setLoading(false);
+  //     })
+  //     .catch(error => {
+  //       console.log(error);
+  //       setLoading(true);
+  //     });
+  // }, []);
+  // const handleSearch = (text) => {
+  //   const filtered = data.filter((item) =>
+  //     item.name.toLowerCase().includes(text.toLowerCase())
+  //   );
+  //   setFilteredData(filtered);
+  // };
+
   return (
     <SafeAreaView style={styles.root}>
       {/* <Pressable onPress={() => navigation.goBack()}>

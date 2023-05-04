@@ -8,11 +8,12 @@ interface Props {
 }
 const Products = ({item}: Props) => {
   const navigation = useNavigation();
+  const goToDetail = (id: number) => {
+    navigation.navigate('Details', {id: id});
+  };
   return (
     <View style={styles.prodWrapper}>
-      <TouchableOpacity
-        style={styles.prodCont}
-        onPress={() => navigation.navigate('Details', {name: item.name})}>
+      <TouchableOpacity style={styles.prodCont} onPress={goToDetail as any}>
         <View style={styles.imgWrapper}></View>
         <View style={styles.prodComponent}>
           <Text style={styles.toplabel}>{item.name}</Text>
