@@ -1,16 +1,21 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {Image, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const ProfileScreen = () => {
   return (
     <SafeAreaView style={styles.root}>
       <Text style={styles.label}>Profile</Text>
       <View style={styles.itemWrapper}>
-        <View style={styles.profileImg}></View>
+        <View style={styles.profileImg}>
+          <Image source={require('../assets/images/profilePic.png')} />
+        </View>
         <Text style={styles.profName}>Rosina Doe</Text>
-        <View>
-          <View></View>
+        <View style={styles.contprof}>
+          <View>
+            <Ionicons name="md-location-outline" size={26} />
+          </View>
           <View style={styles.textAddress}>
             <Text>Address: 43 Oxford Road</Text>
             <Text>M13 4GR</Text>
@@ -30,6 +35,10 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     backgroundColor: '#fff',
     flex: 1,
+  },
+  contprof: {
+    flexDirection: 'row',
+    columnGap: 18,
   },
   label: {
     marginTop: 30,

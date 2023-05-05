@@ -10,51 +10,58 @@ import {
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import Products from '../components/Products';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+
 import axios from 'axios';
 
-export interface Item {
-  id: number;
-  name: string;
+export interface Product {
+  id: string;
+  categories: string;
+  brand: string;
   serie: string;
   price: number;
+  prodImage: string;
+  prodDetails: string;
 }
 
-const data: Item[] = [
-  {id: 1, name: 'apple', serie: 'Series 6 . Red', price: 359},
-  {id: 2, name: 'apple', serie: 'Series 6 . Red', price: 359},
-  {id: 3, name: 'apple', serie: 'Series 6 . Red', price: 359},
-];
+const HomeScreenScreen = () => {
+  const [data, setData] = useState<Product[]>([]);
+  const [filteredData, setFilteredData] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
 
-const HomeScreenScreen = ({navigation}: any) => {
-  // const [data, setData] = useState([]);
-  // const [filteredData, setFilteredData] = useState([]);
-  // const [loading, setLoading] = useState(true);
-  // useEffect(() => {
-  //   axios
-  //     .get('https://northwind.vercel.app/api/categories/')
-  //     .then(res => {
-  //       setData(res.data);
-  //       setFilteredData(res.data);
-  //       setLoading(false);
-  //     })
-  //     .catch(error => {
-  //       console.log(error);
-  //       setLoading(true);
-  //     });
-  // }, []);
-  // const handleSearch = (text) => {
-  //   const filtered = data.filter((item) =>
-  //     item.name.toLowerCase().includes(text.toLowerCase())
-  //   );
-  //   setFilteredData(filtered);
-  // };
+  useEffect(() => {
+    axios
+      .get('https://6453917be9ac46cedf28fd8d.mockapi.io/products')
+      .then(res => {
+        setData(res.data);
+        setFilteredData(res.data);
+        setLoading(false);
+      })
+      .catch(error => {
+        console.log(error);
+        setLoading(true);
+      });
+  }, []);
+
+  const handleSearch = (text: any) => {
+    const filtered = data.filter(item =>
+      item.brand.toLowerCase().includes(text.toLowerCase()),
+    );
+    console.log(filteredData);
+    setFilteredData(filtered);
+  };
 
   return (
     <SafeAreaView style={styles.root}>
-      {/* <Pressable onPress={() => navigation.goBack()}>
-        <Text>Get started</Text>
-      </Pressable> */}
-      <TextInput placeholder="Search" style={styles.input} />
+      <View style={styles.searchIcon}>
+        <Ionicons name="search-outline" size={26} color="#200E32" />
+      </View>
+
+      <TextInput
+        placeholder="Search"
+        style={styles.input}
+        onChangeText={handleSearch}
+      />
       <View style={styles.viewLabel}>
         <Text style={styles.label}>Order online collect in store</Text>
       </View>
@@ -64,12 +71,16 @@ const HomeScreenScreen = ({navigation}: any) => {
         <Text style={styles.categoryLabel}>Phones</Text>
         <Text style={styles.categoryLabel}>Drones</Text>
       </ScrollView>
-      <FlatList
-        data={data}
-        horizontal={true}
-        showsHorizontalScrollIndicator={false}
-        renderItem={({item}: {item: Item}) => <Products item={item} />}
-      />
+      {loading ? (
+        <Text>Loading...</Text>
+      ) : (
+        <FlatList
+          data={filteredData}
+          horizontal={true}
+          showsHorizontalScrollIndicator={false}
+          renderItem={({item}: {item: Product}) => <Products item={item} />}
+        />
+      )}
     </SafeAreaView>
   );
 };
@@ -81,7 +92,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   input: {
-    paddingHorizontal: 45,
+    paddingHorizontal: 55,
     paddingVertical: 15,
     borderColor: '#C9C9C9',
     borderWidth: 1,
@@ -113,4 +124,20 @@ const styles = StyleSheet.create({
   categories: {
     marginBottom: 0,
   },
+  searchIcon: {
+    position: 'absolute',
+    top: 112,
+    left: 40,
+  },
 });
+
+// const data: Item[] = [
+//   {id: 1, name: 'apple', serie: 'Series 6 . Red', price: 359},
+//   {id: 2, name: 'apple', serie: 'Series 6 . Red', price: 359},
+//   {id: 3, name: 'apple', serie: 'Series 6 . Red', price: 359},
+// ];
+{
+  /* <Pressable onPress={() => navigation.goBack()}>
+        <Text>Get started</Text>
+      </Pressable> */
+}

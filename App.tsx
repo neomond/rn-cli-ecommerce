@@ -10,8 +10,11 @@ import {
   getFocusedRouteNameFromRoute,
 } from '@react-navigation/native';
 import DetailsScreen from './screens/DetailsScreen';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import {enableScreens} from 'react-native-screens';
+import {StyleSheet} from 'react-native';
 enableScreens();
 
 const SplashScreenStack = createNativeStackNavigator();
@@ -46,24 +49,106 @@ function HomeStack() {
 const Tab = createBottomTabNavigator();
 function TabNavigator() {
   return (
-    <Tab.Navigator screenOptions={{headerShown: false}}>
+    <Tab.Navigator
+      screenOptions={{
+        headerShown: false,
+        tabBarLabel: () => null,
+        tabBarStyle: styles.tabBar,
+      }}>
       <Tab.Screen
         name="Home"
         component={HomeStack}
         options={({route}: any) => ({
           tabBarStyle: (route => {
             const routeName = getFocusedRouteNameFromRoute(route) ?? '';
-            console.log(routeName);
             if (routeName === 'Details') {
               return {display: 'none'};
             }
-            return;
+            return {
+              height: 200,
+              paddingTop: 110,
+            };
           })(route),
+          tabBarIcon: ({focused}) => (
+            <MaterialCommunityIcons
+              name="home-variant"
+              size={26}
+              color={focused ? '#5956E9' : '#200E32'}
+              style={{
+                shadowColor: '#5956E9',
+                shadowOffset: {width: 0, height: 2},
+                shadowOpacity: 0.25,
+                shadowRadius: 3.84,
+                elevation: 5,
+              }}
+            />
+          ),
+          activeTintColor: 'tomato',
         })}
       />
-      <Tab.Screen name="Favorites" component={FavoritesScreen} />
-      <Tab.Screen name="Profile" component={ProfileScreen} />
-      <Tab.Screen name="Basket" component={BasketScreen} />
+      <Tab.Screen
+        name="Favorites"
+        component={FavoritesScreen}
+        options={{
+          tabBarStyle: styles.tabBar,
+          tabBarIcon: ({focused}) => (
+            <MaterialCommunityIcons
+              name="heart-outline"
+              size={26}
+              color={focused ? '#5956E9' : '#200E32'}
+              style={{
+                shadowColor: '#5956E9',
+                shadowOffset: {width: 0, height: 2},
+                shadowOpacity: 0.25,
+                shadowRadius: 3.84,
+                elevation: 5,
+              }}
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={{
+          tabBarStyle: styles.tabBar,
+          tabBarIcon: ({focused}) => (
+            <Ionicons
+              name="person-outline"
+              size={26}
+              color={focused ? '#5956E9' : '#200E32'}
+              style={{
+                shadowColor: '#5956E9',
+                shadowOffset: {width: 0, height: 2},
+                shadowOpacity: 0.25,
+                shadowRadius: 3.84,
+                elevation: 5,
+              }}
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Basket"
+        component={BasketScreen}
+        options={{
+          tabBarStyle: styles.tabBar,
+          tabBarIcon: ({focused}) => (
+            <Ionicons
+              name="cart-outline"
+              size={26}
+              color={focused ? '#5956E9' : '#200E32'}
+              style={{
+                shadowColor: '#5956E9',
+                shadowOffset: {width: 0, height: 2},
+                shadowOpacity: 0.25,
+                shadowRadius: 3.84,
+                elevation: 5,
+              }}
+            />
+          ),
+        }}
+      />
     </Tab.Navigator>
   );
 }
@@ -77,3 +162,10 @@ function App() {
 }
 
 export default App;
+
+const styles = StyleSheet.create({
+  tabBar: {
+    height: 200,
+    paddingTop: 110,
+  },
+});

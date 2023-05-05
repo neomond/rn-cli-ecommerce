@@ -10,22 +10,22 @@ import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 
 const DetailsScreen = ({route}: any) => {
-  // const [detail, setDetail] = useState();
-  // const [loading, setLoading] = useState(true);
+  const [detail, setDetail] = useState();
+  const [loading, setLoading] = useState(true);
   const {id} = route.params;
 
-  // useEffect(() => {
-  //   axios
-  //     .get('https://northwind.vercel.app/api/categories/' + id)
-  //     .then(res => {
-  //       setDetail(res.data);
-  //       setLoading(false);
-  //     })
-  //     .catch(error => {
-  //       console.log(error);
-  //       setLoading(true);
-  //     });
-  // }, []);
+  useEffect(() => {
+    axios
+      .get('https://64552f94a74f994b335480de.mockapi.io/products/' + id)
+      .then(res => {
+        setDetail(res.data);
+        setLoading(false);
+      })
+      .catch(error => {
+        console.log(error);
+        setLoading(true);
+      });
+  }, []);
   return (
     <SafeAreaView style={styles.rootContainer}>
       {/* {loading ? (

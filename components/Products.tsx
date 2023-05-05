@@ -1,11 +1,12 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
-import {Item} from '../screens/HomeScreen';
+import {Product} from '../screens/HomeScreen';
 import {useNavigation} from '@react-navigation/native';
 
 interface Props {
-  item: Item;
+  item: Product;
 }
+
 const Products = ({item}: Props) => {
   const navigation = useNavigation();
   const goToDetail = (id: number) => {
@@ -13,10 +14,12 @@ const Products = ({item}: Props) => {
   };
   return (
     <View style={styles.prodWrapper}>
-      <TouchableOpacity style={styles.prodCont} onPress={goToDetail as any}>
+      <TouchableOpacity
+        style={styles.prodCont}
+        onPress={() => goToDetail(item.id)}>
         <View style={styles.imgWrapper}></View>
         <View style={styles.prodComponent}>
-          <Text style={styles.toplabel}>{item.name}</Text>
+          <Text style={styles.toplabel}>{item.brand}</Text>
           <Text style={styles.middlelabel}>{item.serie}</Text>
           <Text style={styles.bottomlabel}>${item.price}</Text>
         </View>
@@ -30,7 +33,7 @@ export default Products;
 const styles = StyleSheet.create({
   prodWrapper: {
     paddingLeft: 20,
-    paddingVertical: 50,
+    paddingVertical: 70,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
