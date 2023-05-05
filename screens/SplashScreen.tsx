@@ -12,8 +12,17 @@ const SplashScreen = ({navigation}: any) => {
   return (
     <SafeAreaView style={styles.rootContainer}>
       <View>
-        <Text style={styles.label}>Find your Gadget</Text>
-        <Image source={{uri: '/splashing.png'}} style={styles.tinyLogo} />
+        <View style={{alignItems: 'center', justifyContent: 'center'}}>
+          <Text style={styles.label}>Find your Gadget</Text>
+        </View>
+        <Image
+          source={require('../assets/images/splashImg.png')}
+          style={{marginTop: -10}}
+        />
+        <Image
+          source={require('../assets/images/blur.png')}
+          style={{position: 'absolute', bottom: 20}}
+        />
         <Pressable
           style={styles.button}
           onPress={() => navigation.navigate('Tabs')}>
@@ -30,9 +39,7 @@ const styles = StyleSheet.create({
   rootContainer: {
     backgroundColor: '#5956E9',
     flex: 1,
-    paddingTop: 70,
     alignItems: 'center',
-    justifyContent: 'flex-start',
   },
   label: {
     fontSize: 65,
@@ -40,19 +47,17 @@ const styles = StyleSheet.create({
     paddingTop: 75,
     fontWeight: '700',
     letterSpacing: 1,
-  },
-  tinyLogo: {
-    width: 50,
-    height: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   button: {
-    width: 300,
     backgroundColor: '#fff',
     paddingHorizontal: 12,
     paddingVertical: 20,
     borderRadius: 10,
     alignItems: 'center',
-    justifyContent: 'center',
+    marginHorizontal: '8%',
+    marginTop: 30,
   },
   labelBtn: {
     color: '#5956E9',

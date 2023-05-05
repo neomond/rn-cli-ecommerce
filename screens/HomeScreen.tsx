@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
   },
   input: {
     paddingHorizontal: 45,
-    paddingVertical: 20,
+    paddingVertical: 15,
     borderColor: '#C9C9C9',
     borderWidth: 1,
     borderRadius: 30,
@@ -111,6 +111,6 @@ const styles = StyleSheet.create({
     marginLeft: 20,
   },
   categories: {
-    marginBottom: 40,
+    marginBottom: 0,
   },
 });
