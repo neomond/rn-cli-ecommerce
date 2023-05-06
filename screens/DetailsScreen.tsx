@@ -11,27 +11,55 @@ import {
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Product} from './HomeScreen';
 
-interface DetailsScreenProps {
-  route: {
-    params: {
-      id: string;
-    };
-  };
-  navigation: any;
-}
+// interface DetailsScreenProps {
+//   route: {
+//     params: {
+//       id: string;
+//     };
+//   };
+//   navigation: any;
+// }
 
-const DetailsScreen: React.FC<DetailsScreenProps> = ({route, navigation}) => {
+const DetailsScreen: React.FC<any> = ({route, navigation}) => {
   const [basket, setBasket] = useState<string[]>([]);
-  const [detail, setDetail] = useState<Product | undefined>();
+  const [detail, setDetail] = useState<any>();
   const [loading, setLoading] = useState<boolean>(true);
+  const [isFavorite, setIsFavorite] = useState<boolean>(false);
+
   const {id} = route.params;
 
   const handleAddToBasket = () => {
     setBasket(prevBasket => [...prevBasket, id]);
     navigation.navigate('Basket', {basket: [...basket, {id, detail}]});
+  };
+
+  const handleAddToFavorites = async () => {
+    try {
+      const favoritesJson = await AsyncStorage.getItem('favorites');
+      const favorites = favoritesJson ? JSON.parse(favoritesJson) : [];
+      favorites.push(id);
+      await AsyncStorage.setItem('favorites', JSON.stringify(favorites));
+      setIsFavorite(true);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleRemoveFromFavorites = async () => {
+    try {
+      const favoritesJson = await AsyncStorage.getItem('favorites');
+      const favorites = favoritesJson ? JSON.parse(favoritesJson) : [];
+      const updatedFavorites = favorites.filter(
+        (favoriteId: string) => favoriteId !== id,
+      );
+      await AsyncStorage.setItem('favorites', JSON.stringify(updatedFavorites));
+      setIsFavorite(false);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
@@ -46,75 +74,99 @@ const DetailsScreen: React.FC<DetailsScreenProps> = ({route, navigation}) => {
         setLoading(true);
       });
   }, []);
+
+  useEffect(() => {
+    const fetchFavorites = async () => {
+      try {
+        const favoritesJson = await AsyncStorage.getItem('favorites');
+        const favorites = favoritesJson ? JSON.parse(favoritesJson) : [];
+        setIsFavorite(favorites.includes(id));
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchFavorites();
+  }, []);
+
   return (
     <SafeAreaView style={styles.rootContainer}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <MaterialCommunityIcons name="keyboard-backspace" size={26} />
         </TouchableOpacity>
-        <TouchableOpacity>
-          <MaterialCommunityIcons name="heart-outline" size={26} />
+        <TouchableOpacity
+          onPress={
+            isFavorite ? handleRemoveFromFavorites : handleAddToFavorites
+          }>
+          {isFavorite ? (
+            <MaterialCommunityIcons name="heart" size={26} color="red" />
+          ) : (
+            <MaterialCommunityIcons
+              name="heart-outline"
+              size={26}
+              color="black"
+            />
+          )}
         </TouchableOpacity>
       </View>
-      {/* {loading ? (
+      {loading ? (
         <ActivityIndicator size="small" color="#C1C6CF" />
       ) : (
-        <Text style={styles.label}> {detail?.description}</Text>
-      )} */}
-      <ScrollView>
-        <View style={styles.prodImg}>
-          <Image
-            source={{uri: detail?.prodImage}}
-            style={styles.prodImage}
-            resizeMode="cover"
-          />
-        </View>
-        <View style={styles.secondaryContainer}>
-          <Text style={styles.majorLabel}>{detail?.brand}</Text>
-          <Text style={styles.minorLabel}>Colors</Text>
-          <View style={styles.prodDetTypes}>
-            <View style={styles.prodDetType}>
-              <View
-                style={[
-                  styles.prodColor,
-                  {backgroundColor: '#7485C1', borderColor: '#7485C1'},
-                ]}
-              />
-              <Text style={styles.prodColorLabel}>Sky Blue</Text>
-            </View>
-            <View style={styles.prodDetType}>
-              <View
-                style={[
-                  styles.prodColor,
-                  {backgroundColor: '#C9A19C', borderColor: '#C9A19C'},
-                ]}
-              />
-              <Text style={styles.prodColorLabel}>Sky Blue</Text>
-            </View>
-            <View style={styles.prodDetType}>
-              <View
-                style={[
-                  styles.prodColor,
-                  {backgroundColor: '#A1C89B', borderColor: '#A1C89B'},
-                ]}
-              />
-              <Text style={styles.prodColorLabel}>Sky Blue</Text>
-            </View>
+        <ScrollView>
+          <View style={styles.prodImg}>
+            <Image
+              source={{uri: detail?.prodImage}}
+              style={styles.prodImage}
+              resizeMode="cover"
+            />
           </View>
-          <Text style={styles.catchLabel}>{detail?.specialOffer}</Text>
-          <Text style={styles.catchText}>
-            Available when you purchase any new iPhone, iPad, iPod Touch, Mac or
-            Apple TV, £4.99/month after free trial.
-          </Text>
-          <View style={styles.priceField}>
-            <Text style={styles.priceFieldLabelLeft}>Price</Text>
-            <Text style={styles.priceFieldLabelRight}>$ {detail?.price}</Text>
+          <View style={styles.secondaryContainer}>
+            <Text style={styles.majorLabel}>{detail?.brand}</Text>
+            <Text style={styles.minorLabel}>Colors</Text>
+            <View style={styles.prodDetTypes}>
+              <View style={styles.prodDetType}>
+                <View
+                  style={[
+                    styles.prodColor,
+                    {backgroundColor: '#7485C1', borderColor: '#7485C1'},
+                  ]}
+                />
+                <Text style={styles.prodColorLabel}>Sky Blue</Text>
+              </View>
+              <View style={styles.prodDetType}>
+                <View
+                  style={[
+                    styles.prodColor,
+                    {backgroundColor: '#C9A19C', borderColor: '#C9A19C'},
+                  ]}
+                />
+                <Text style={styles.prodColorLabel}>Sky Blue</Text>
+              </View>
+              <View style={styles.prodDetType}>
+                <View
+                  style={[
+                    styles.prodColor,
+                    {backgroundColor: '#A1C89B', borderColor: '#A1C89B'},
+                  ]}
+                />
+                <Text style={styles.prodColorLabel}>Sky Blue</Text>
+              </View>
+            </View>
+            <Text style={styles.catchLabel}>{detail?.specialOffer}</Text>
+            <Text style={styles.catchText}>
+              Available when you purchase any new iPhone, iPad, iPod Touch, Mac
+              or Apple TV, £4.99/month after free trial.
+            </Text>
+            <View style={styles.priceField}>
+              <Text style={styles.priceFieldLabelLeft}>Price</Text>
+              <Text style={styles.priceFieldLabelRight}>$ {detail?.price}</Text>
+            </View>
+            <TouchableOpacity style={styles.addBtn} onPress={handleAddToBasket}>
+              <Text style={styles.addBtnLabel}>Add to basket</Text>
+            </TouchableOpacity>
           </View>
-          <TouchableOpacity style={styles.addBtn} onPress={handleAddToBasket}>
-            <Text style={styles.addBtnLabel}>Add to basket</Text>
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
+        </ScrollView>
+      )}
     </SafeAreaView>
   );
 };

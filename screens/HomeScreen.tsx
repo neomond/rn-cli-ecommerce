@@ -24,6 +24,7 @@ export interface Product {
   prodImage: string;
   prodDetails: string;
   specialOffer: string;
+  description: string;
 }
 
 const HomeScreenScreen = () => {
@@ -85,6 +86,7 @@ const HomeScreenScreen = () => {
       ) : (
         <Text style={styles.nomatcheslabel}>No matches found.</Text>
       )}
+      <View style={styles.tabBar} />
     </SafeAreaView>
   );
 };
@@ -138,6 +140,11 @@ const styles = StyleSheet.create({
     fontSize: 22,
     marginLeft: '28%',
     paddingTop: 50,
+  },
+  tabBar: {
+    height: 200,
+    paddingTop: 110,
+    backgroundColor: '#fff',
   },
 });
 

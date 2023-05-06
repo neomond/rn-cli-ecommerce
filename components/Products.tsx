@@ -3,13 +3,9 @@ import React from 'react';
 import {Product} from '../screens/HomeScreen';
 import {useNavigation} from '@react-navigation/native';
 
-interface Props {
-  item: Product;
-}
-
-const Products = ({item}: Props) => {
+const Products = ({item}: any): any => {
   const navigation = useNavigation();
-  const goToDetail = (id: number) => {
+  const goToDetail = (id: number): any => {
     navigation.navigate('Details', {id: id});
   };
   return (

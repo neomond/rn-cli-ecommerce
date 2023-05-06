@@ -12,33 +12,23 @@ import {
 } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 
-type RootStackParamList = {
-  Basket: {basket: string[]};
-};
+// type RootStackParamList = {
+//   Basket: {basket: string[]};
+// };
 
-type BasketScreenRouteProp = RouteProp<RootStackParamList, 'Basket'>;
+// type BasketScreenRouteProp = RouteProp<RootStackParamList, 'Basket'>;
 
-type BasketScreenNavigationProp = NativeStackNavigationProp<
-  RootStackParamList,
-  'Basket'
->;
+// type BasketScreenNavigationProp = NativeStackNavigationProp<
+//   RootStackParamList,
+//   'Basket'
+// >;
 
-// interface Product {
-//   prodImage: string;
-//   brand: string;
-//   price: number;
-// }
+// type Props = {
+//   route: BasketScreenRouteProp;
+//   navigation: BasketScreenNavigationProp;
+// };
 
-// interface BasketScreenProps {
-//   basket: Product[];
-// }
-
-type Props = {
-  route: BasketScreenRouteProp;
-  navigation: BasketScreenNavigationProp;
-};
-
-const BasketScreen = ({route}: Props) => {
+const BasketScreen = ({route}: any): any => {
   const {basket} = route.params;
 
   const [itemQuantities, setItemQuantities] = useState<number[]>(
@@ -60,12 +50,12 @@ const BasketScreen = ({route}: Props) => {
   const renderItem = ({item, index}: {item: any; index: number}) => (
     <View style={styles.renderedItemsWrapper}>
       <Image
-        source={{uri: item.detail.prodImage}}
+        source={{uri: item.detail?.prodImage}}
         style={{width: 80, height: 105}}
       />
       <View style={styles.itemsRenText}>
-        <Text style={styles.itemRenMain}>{item.detail.brand}</Text>
-        <Text style={styles.itemRenPrice}>${item.detail.price}</Text>
+        <Text style={styles.itemRenMain}>{item.detail?.brand}</Text>
+        <Text style={styles.itemRenPrice}>${item.detail?.price}</Text>
         <View style={styles.quantitiWrapper}>
           <Text style={styles.incrQuantity}>Quantity</Text>
 

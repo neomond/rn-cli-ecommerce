@@ -66,8 +66,7 @@ function TabNavigator() {
               return {display: 'none'};
             }
             return {
-              height: 200,
-              paddingTop: 110,
+              borderTopWidth: 0,
             };
           })(route),
           tabBarIcon: ({focused}) => (
@@ -166,7 +165,6 @@ export default App;
 
 const styles = StyleSheet.create({
   tabBar: {
-    height: 200,
-    paddingTop: 110,
+    borderTopWidth: 0,
   },
 });
