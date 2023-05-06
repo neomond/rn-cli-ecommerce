@@ -1,4 +1,5 @@
 import {
+  ActivityIndicator,
   FlatList,
   Pressable,
   SafeAreaView,
@@ -22,6 +23,7 @@ export interface Product {
   price: number;
   prodImage: string;
   prodDetails: string;
+  specialOffer: string;
 }
 
 const HomeScreenScreen = () => {
@@ -31,7 +33,7 @@ const HomeScreenScreen = () => {
 
   useEffect(() => {
     axios
-      .get('https://6453917be9ac46cedf28fd8d.mockapi.io/products')
+      .get('https://64554565a74f994b3356cc6f.mockapi.io/products/')
       .then(res => {
         setData(res.data);
         setFilteredData(res.data);
@@ -72,14 +74,16 @@ const HomeScreenScreen = () => {
         <Text style={styles.categoryLabel}>Drones</Text>
       </ScrollView>
       {loading ? (
-        <Text>Loading...</Text>
-      ) : (
+        <ActivityIndicator size="small" color="#C1C6CF" />
+      ) : filteredData.length > 0 ? (
         <FlatList
           data={filteredData}
           horizontal={true}
           showsHorizontalScrollIndicator={false}
           renderItem={({item}: {item: Product}) => <Products item={item} />}
         />
+      ) : (
+        <Text style={styles.nomatcheslabel}>No matches found.</Text>
       )}
     </SafeAreaView>
   );
@@ -128,6 +132,12 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 112,
     left: 40,
+  },
+  nomatcheslabel: {
+    color: '#9A9A9D',
+    fontSize: 22,
+    marginLeft: '28%',
+    paddingTop: 50,
   },
 });
 

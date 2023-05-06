@@ -1,4 +1,4 @@
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {Product} from '../screens/HomeScreen';
 import {useNavigation} from '@react-navigation/native';
@@ -17,7 +17,13 @@ const Products = ({item}: Props) => {
       <TouchableOpacity
         style={styles.prodCont}
         onPress={() => goToDetail(item.id)}>
-        <View style={styles.imgWrapper}></View>
+        <View style={styles.imgWrapper}>
+          <Image
+            source={{uri: item.prodImage}}
+            style={styles.prodImage}
+            resizeMode="cover"
+          />
+        </View>
         <View style={styles.prodComponent}>
           <Text style={styles.toplabel}>{item.brand}</Text>
           <Text style={styles.middlelabel}>{item.serie}</Text>
@@ -54,16 +60,16 @@ const styles = StyleSheet.create({
   },
   prodComponent: {
     alignItems: 'center',
-    paddingTop: 120,
-    paddingBottom: 40,
+    paddingTop: 130,
+    paddingBottom: 20,
   },
   imgWrapper: {
     position: 'absolute',
-    top: -30,
-    borderRadius: 70,
-    backgroundColor: '#FADFE0',
-    width: 140,
-    height: 140,
+    top: -40,
+    borderRadius: 200,
+    backgroundColor: '#e3e3e3',
+    width: 160,
+    height: 160,
   },
   toplabel: {
     fontSize: 22,
@@ -79,5 +85,11 @@ const styles = StyleSheet.create({
     color: '#5956E9',
     fontSize: 16,
     fontWeight: '700',
+  },
+  prodImage: {
+    width: 160,
+    height: 160,
+    resizeMode: 'contain',
+    borderRadius: 200,
   },
 });

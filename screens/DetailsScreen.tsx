@@ -5,18 +5,38 @@ import {
   ActivityIndicator,
   View,
   TouchableOpacity,
+  Image,
+  ScrollView,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const DetailsScreen = ({route}: any) => {
-  const [detail, setDetail] = useState();
-  const [loading, setLoading] = useState(true);
+import {Product} from './HomeScreen';
+
+interface DetailsScreenProps {
+  route: {
+    params: {
+      id: string;
+    };
+  };
+  navigation: any;
+}
+
+const DetailsScreen: React.FC<DetailsScreenProps> = ({route, navigation}) => {
+  const [basket, setBasket] = useState<string[]>([]);
+  const [detail, setDetail] = useState<Product | undefined>();
+  const [loading, setLoading] = useState<boolean>(true);
   const {id} = route.params;
+
+  const handleAddToBasket = () => {
+    setBasket(prevBasket => [...prevBasket, id]);
+    navigation.navigate('Basket', {basket: [...basket, {id, detail}]});
+  };
 
   useEffect(() => {
     axios
-      .get('https://64552f94a74f994b335480de.mockapi.io/products/' + id)
+      .get('https://64554565a74f994b3356cc6f.mockapi.io/products/' + id)
       .then(res => {
         setDetail(res.data);
         setLoading(false);
@@ -28,15 +48,29 @@ const DetailsScreen = ({route}: any) => {
   }, []);
   return (
     <SafeAreaView style={styles.rootContainer}>
+      <View style={styles.header}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <MaterialCommunityIcons name="keyboard-backspace" size={26} />
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <MaterialCommunityIcons name="heart-outline" size={26} />
+        </TouchableOpacity>
+      </View>
       {/* {loading ? (
         <ActivityIndicator size="small" color="#C1C6CF" />
       ) : (
         <Text style={styles.label}> {detail?.description}</Text>
       )} */}
-      <View>
-        <View style={styles.prodImg}></View>
+      <ScrollView>
+        <View style={styles.prodImg}>
+          <Image
+            source={{uri: detail?.prodImage}}
+            style={styles.prodImage}
+            resizeMode="cover"
+          />
+        </View>
         <View style={styles.secondaryContainer}>
-          <Text style={styles.majorLabel}>2020 Apple iPad Air 10.9"</Text>
+          <Text style={styles.majorLabel}>{detail?.brand}</Text>
           <Text style={styles.minorLabel}>Colors</Text>
           <View style={styles.prodDetTypes}>
             <View style={styles.prodDetType}>
@@ -67,23 +101,25 @@ const DetailsScreen = ({route}: any) => {
               <Text style={styles.prodColorLabel}>Sky Blue</Text>
             </View>
           </View>
-          <Text style={styles.catchLabel}>Get Apple TV+ free for a year</Text>
+          <Text style={styles.catchLabel}>{detail?.specialOffer}</Text>
           <Text style={styles.catchText}>
             Available when you purchase any new iPhone, iPad, iPod Touch, Mac or
             Apple TV, £4.99/month after free trial.
           </Text>
           <View style={styles.priceField}>
             <Text style={styles.priceFieldLabelLeft}>Price</Text>
-            <Text style={styles.priceFieldLabelRight}>$ 579</Text>
+            <Text style={styles.priceFieldLabelRight}>$ {detail?.price}</Text>
           </View>
-          <TouchableOpacity style={styles.addBtn}>
+          <TouchableOpacity style={styles.addBtn} onPress={handleAddToBasket}>
             <Text style={styles.addBtnLabel}>Add to basket</Text>
           </TouchableOpacity>
         </View>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
+
+// onPress={handleAddToBasket}
 
 export default DetailsScreen;
 
@@ -92,9 +128,17 @@ const styles = StyleSheet.create({
     paddingHorizontal: 25,
     backgroundColor: '#F6F6F9',
   },
+  header: {
+    paddingVertical: 10,
+    paddingHorizontal: 25,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
   prodImg: {
     backgroundColor: '#F6F6F9',
-    height: 450,
+    height: 400,
+    width: 450,
   },
   majorLabel: {
     fontSize: 28,
@@ -114,6 +158,7 @@ const styles = StyleSheet.create({
   secondaryContainer: {
     backgroundColor: '#fff',
     paddingHorizontal: 25,
+    height: 400,
   },
   prodColor: {
     width: 15,
@@ -184,5 +229,10 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 20,
     fontWeight: '600',
+  },
+  prodImage: {
+    height: 400,
+    width: 450,
+    resizeMode: 'contain',
   },
 });

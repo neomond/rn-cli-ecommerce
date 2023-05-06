@@ -93,7 +93,7 @@ function TabNavigator() {
           tabBarStyle: styles.tabBar,
           tabBarIcon: ({focused}) => (
             <MaterialCommunityIcons
-              name="heart-outline"
+              name="heart"
               size={26}
               color={focused ? '#5956E9' : '#200E32'}
               style={{
@@ -114,7 +114,7 @@ function TabNavigator() {
           tabBarStyle: styles.tabBar,
           tabBarIcon: ({focused}) => (
             <Ionicons
-              name="person-outline"
+              name="person"
               size={26}
               color={focused ? '#5956E9' : '#200E32'}
               style={{
@@ -135,7 +135,7 @@ function TabNavigator() {
           tabBarStyle: styles.tabBar,
           tabBarIcon: ({focused}) => (
             <Ionicons
-              name="cart-outline"
+              name="cart"
               size={26}
               color={focused ? '#5956E9' : '#200E32'}
               style={{
