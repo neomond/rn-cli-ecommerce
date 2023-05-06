@@ -1,6 +1,6 @@
 import {RouteProp} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import React from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -8,6 +8,7 @@ import {
   Image,
   StyleSheet,
   SafeAreaView,
+  TouchableOpacity,
 } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 
@@ -40,7 +41,23 @@ type Props = {
 const BasketScreen = ({route}: Props) => {
   const {basket} = route.params;
 
-  const renderItem = ({item}: {item: any}) => (
+  const [itemQuantities, setItemQuantities] = useState<number[]>(
+    Array(basket.length).fill(1),
+  ); // initialize all quantities to 1
+
+  const handleIncreaseQuantity = (index: number) => {
+    const newQuantities = [...itemQuantities];
+    newQuantities[index] += 1;
+    setItemQuantities(newQuantities);
+  };
+
+  const handleDecreaseQuantity = (index: number) => {
+    const newQuantities = [...itemQuantities];
+    newQuantities[index] = Math.max(newQuantities[index] - 1, 1); // ensure quantity is at least 1
+    setItemQuantities(newQuantities);
+  };
+
+  const renderItem = ({item, index}: {item: any; index: number}) => (
     <View style={styles.renderedItemsWrapper}>
       <Image
         source={{uri: item.detail.prodImage}}
@@ -53,11 +70,15 @@ const BasketScreen = ({route}: Props) => {
           <Text style={styles.incrQuantity}>Quantity</Text>
 
           <View style={styles.incrWrapper}>
-            <Text style={styles.incr}>-</Text>
+            <TouchableOpacity onPress={() => handleDecreaseQuantity(index)}>
+              <Text style={styles.incr}>-</Text>
+            </TouchableOpacity>
           </View>
-          <Text style={styles.counter}>1</Text>
+          <Text style={styles.counter}>{itemQuantities[index]}</Text>
           <View style={styles.incrWrapper}>
-            <Text style={styles.incr}>+</Text>
+            <TouchableOpacity onPress={() => handleIncreaseQuantity(index)}>
+              <Text style={styles.incr}>+</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </View>

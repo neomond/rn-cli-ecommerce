@@ -12,6 +12,7 @@ import {
 import DetailsScreen from './screens/DetailsScreen';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import Feather from 'react-native-vector-icons/Feather';
 
 import {enableScreens} from 'react-native-screens';
 import {StyleSheet} from 'react-native';
@@ -70,8 +71,8 @@ function TabNavigator() {
             };
           })(route),
           tabBarIcon: ({focused}) => (
-            <MaterialCommunityIcons
-              name="home-variant"
+            <Feather
+              name="home"
               size={26}
               color={focused ? '#5956E9' : '#200E32'}
               style={{
@@ -93,7 +94,7 @@ function TabNavigator() {
           tabBarStyle: styles.tabBar,
           tabBarIcon: ({focused}) => (
             <MaterialCommunityIcons
-              name="heart"
+              name="heart-outline"
               size={26}
               color={focused ? '#5956E9' : '#200E32'}
               style={{
@@ -114,7 +115,7 @@ function TabNavigator() {
           tabBarStyle: styles.tabBar,
           tabBarIcon: ({focused}) => (
             <Ionicons
-              name="person"
+              name="person-outline"
               size={26}
               color={focused ? '#5956E9' : '#200E32'}
               style={{
@@ -135,7 +136,7 @@ function TabNavigator() {
           tabBarStyle: styles.tabBar,
           tabBarIcon: ({focused}) => (
             <Ionicons
-              name="cart"
+              name="cart-outline"
               size={26}
               color={focused ? '#5956E9' : '#200E32'}
               style={{
