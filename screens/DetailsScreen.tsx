@@ -14,17 +14,8 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Product} from './HomeScreen';
 
-// interface DetailsScreenProps {
-//   route: {
-//     params: {
-//       id: string;
-//     };
-//   };
-//   navigation: any;
-// }
-
-const DetailsScreen: React.FC<any> = ({route, navigation}) => {
-  const [basket, setBasket] = useState<string[]>([]);
+const DetailsScreen: React.FC<any> = ({route, navigation}: any): any => {
+  const [basket, setBasket] = useState<any[]>([]);
   const [detail, setDetail] = useState<any>();
   const [loading, setLoading] = useState<boolean>(true);
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
@@ -33,8 +24,28 @@ const DetailsScreen: React.FC<any> = ({route, navigation}) => {
 
   const handleAddToBasket = () => {
     setBasket(prevBasket => [...prevBasket, id]);
-    navigation.navigate('Basket', {basket: [...basket, {id, detail}]});
+    AsyncStorage.setItem(`product_${id}`, JSON.stringify(detail));
+    navigation.navigate('Basket', {
+      basket: [...basket, {id, detail}],
+    });
   };
+
+  const fetchDetailsFromStorage = async () => {
+    try {
+      const storedDetail = await AsyncStorage.getItem(`product_${id}`);
+      if (storedDetail) {
+        setDetail(JSON.parse(storedDetail));
+      }
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(true);
+    }
+  };
+
+  useEffect(() => {
+    fetchDetailsFromStorage();
+  }, []);
 
   const handleAddToFavorites = async () => {
     try {
@@ -63,17 +74,21 @@ const DetailsScreen: React.FC<any> = ({route, navigation}) => {
   };
 
   useEffect(() => {
-    axios
-      .get('https://64554565a74f994b3356cc6f.mockapi.io/products/' + id)
-      .then(res => {
-        setDetail(res.data);
+    const fetchDetails = async () => {
+      try {
+        const response = await axios.get(
+          `https://64554565a74f994b3356cc6f.mockapi.io/products/${id}`,
+        );
+        setDetail(response.data);
         setLoading(false);
-      })
-      .catch(error => {
+      } catch (error) {
         console.log(error);
         setLoading(true);
-      });
-  }, []);
+      }
+    };
+
+    fetchDetails();
+  }, [id]);
 
   useEffect(() => {
     const fetchFavorites = async () => {
@@ -85,8 +100,9 @@ const DetailsScreen: React.FC<any> = ({route, navigation}) => {
         console.log(error);
       }
     };
+
     fetchFavorites();
-  }, []);
+  }, [id]);
 
   return (
     <SafeAreaView style={styles.rootContainer}>
@@ -208,9 +224,10 @@ const styles = StyleSheet.create({
     color: '#575D82',
   },
   secondaryContainer: {
+    flex: 1,
     backgroundColor: '#fff',
     paddingHorizontal: 25,
-    height: 400,
+    height: 450,
   },
   prodColor: {
     width: 15,

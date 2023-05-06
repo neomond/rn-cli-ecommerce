@@ -36,6 +36,7 @@ const styles = StyleSheet.create({
   prodWrapper: {
     paddingLeft: 20,
     paddingVertical: 70,
+    fontFamily: 'Raleway-Bold',
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -71,16 +72,20 @@ const styles = StyleSheet.create({
     fontSize: 22,
     color: '#000',
     paddingBottom: 5,
+    fontFamily: 'Raleway-Bold',
   },
   middlelabel: {
     fontSize: 16,
     color: '#868686',
     paddingBottom: 15,
+    fontWeight: '500',
+    fontFamily: 'Raleway-Bold',
   },
   bottomlabel: {
     color: '#5956E9',
     fontSize: 16,
     fontWeight: '700',
+    fontFamily: 'Raleway-Bold',
   },
   prodImage: {
     width: 160,

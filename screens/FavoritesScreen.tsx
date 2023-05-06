@@ -39,36 +39,37 @@ const FavoritesScreen: React.FC = ({navigation}: any): any => {
 
   const renderItem = ({item}: {item: Product}) => (
     <TouchableOpacity
-      style={{flexDirection: 'row', marginVertical: 8}}
-      onPress={() => console.log('Product details page should open')}>
+      onPress={() => handleRemoveFavorite(item.id)}
+      style={{flexDirection: 'row', marginVertical: 8}}>
       <Image source={{uri: item.prodImage}} style={{width: 80, height: 80}} />
       <View style={{marginLeft: 16}}>
         <Text style={{fontWeight: 'bold'}}>{item.brand}</Text>
-        <Text>{item.description}</Text>
         <Text style={{fontWeight: 'bold', marginTop: 8}}>${item.price}</Text>
-        <TouchableOpacity
-          onPress={() => handleRemoveFavorite(item.id)}
-          style={{
-            backgroundColor: '#c62828',
-            padding: 4,
-            alignSelf: 'flex-start',
-            borderRadius: 4,
-            marginTop: 8,
-          }}>
-          <Text style={{color: 'white'}}>Remove from Favorites</Text>
-        </TouchableOpacity>
       </View>
     </TouchableOpacity>
   );
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
       <FlatList
         data={favoriteProducts}
         keyExtractor={item => item.id}
         renderItem={renderItem}
         ListEmptyComponent={(): any => (
           <View style={styles.noFavWrapper}>
+            <View style={styles.header}>
+              <Text style={styles.headerText}>Basket</Text>
+            </View>
+            <View style={styles.imagesFav}>
+              <Image
+                style={{width: 48, height: 69}}
+                source={require('../assets/images/Saly-10.png')}
+              />
+              <Image
+                style={{marginTop: 40, width: 246, height: 352}}
+                source={require('../assets/images/Sally-4.png')}
+              />
+            </View>
             <Text style={styles.noFav}>No favorites yet</Text>
             <Text style={styles.noFavStart}>
               Hit the button down below to Create an order
@@ -79,12 +80,6 @@ const FavoritesScreen: React.FC = ({navigation}: any): any => {
               <Text style={styles.startOrderBtnText}>Start ordering</Text>
             </TouchableOpacity>
             {/* <AvatarImg /> */}
-            <View style={{width: 100, height: 100}}>
-              <Image
-                style={{width: 100, height: 100}}
-                source={require('../assets/images/ava2.svg')}
-              />
-            </View>
           </View>
         )}
       />
@@ -110,6 +105,7 @@ const styles = StyleSheet.create({
   noFav: {
     fontSize: 28,
     fontWeight: '600',
+    fontFamily: 'Raleway-Bold',
   },
   noFavStart: {
     paddingHorizontal: '25%',
@@ -118,6 +114,7 @@ const styles = StyleSheet.create({
     marginTop: 15,
     alignItems: 'center',
     justifyContent: 'center',
+    fontFamily: 'Raleway-Bold',
   },
   startOrderBtn: {
     paddingHorizontal: 40,
@@ -130,5 +127,21 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 17,
     fontWeight: '700',
+    fontFamily: 'Raleway-Bold',
+  },
+  imagesFav: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    marginLeft: 50,
+    columnGap: 10,
+  },
+  header: {
+    alignItems: 'center',
+    marginVertical: 30,
+  },
+  headerText: {
+    fontSize: 20,
+    fontWeight: '600',
+    fontFamily: 'Raleway-Bold',
   },
 });

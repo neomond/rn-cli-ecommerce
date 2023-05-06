@@ -43,8 +43,9 @@ const styles = StyleSheet.create({
   label: {
     marginTop: 30,
     marginBottom: 40,
-    fontSize: 18,
-    fontWeight: '700',
+    fontSize: 20,
+    fontWeight: '600',
+    fontFamily: 'Raleway-Bold',
   },
   profileImg: {
     width: 76,
@@ -57,6 +58,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '600',
     marginBottom: 12,
+    fontFamily: 'Raleway-Bold',
   },
   itemWrapper: {
     backgroundColor: '#fff',
@@ -78,5 +80,6 @@ const styles = StyleSheet.create({
   textAddress: {
     width: '60%',
     paddingBottom: 10,
+    fontFamily: 'Raleway-Bold',
   },
 });

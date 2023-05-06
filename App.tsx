@@ -4,7 +4,8 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import HomeScreenScreen from './screens/HomeScreen';
 import FavoritesScreen from './screens/FavoritesScreen';
 import ProfileScreen from './screens/ProfileScreen';
-import BasketScreen from './screens/BasketScreen';
+import BasketScreen, {BasketScreenProps} from './screens/BasketScreen';
+
 import {
   NavigationContainer,
   getFocusedRouteNameFromRoute,
@@ -67,6 +68,8 @@ function TabNavigator() {
             }
             return {
               borderTopWidth: 0,
+              height: 150,
+              paddingTop: 70,
             };
           })(route),
           tabBarIcon: ({focused}) => (
@@ -130,7 +133,7 @@ function TabNavigator() {
       />
       <Tab.Screen
         name="Basket"
-        component={BasketScreen}
+        component={BasketScreen as React.ComponentType<BasketScreenProps | any>}
         options={{
           tabBarStyle: styles.tabBar,
           tabBarIcon: ({focused}) => (

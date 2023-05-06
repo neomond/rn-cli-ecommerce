@@ -1,7 +1,6 @@
 import {
   ActivityIndicator,
   FlatList,
-  Pressable,
   SafeAreaView,
   ScrollView,
   StyleSheet,
@@ -46,7 +45,7 @@ const HomeScreenScreen = () => {
       });
   }, []);
 
-  const handleSearch = (text: any) => {
+  const handleSearch = (text: any): any => {
     const filtered = data.filter(item =>
       item.brand.toLowerCase().includes(text.toLowerCase()),
     );
@@ -69,10 +68,14 @@ const HomeScreenScreen = () => {
         <Text style={styles.label}>Order online collect in store</Text>
       </View>
       <ScrollView horizontal={true} style={styles.categories}>
-        <Text style={[styles.categoryLabel, {color: '#5956E9'}]}>Wearable</Text>
-        <Text style={styles.categoryLabel}>Laptops</Text>
-        <Text style={styles.categoryLabel}>Phones</Text>
-        <Text style={styles.categoryLabel}>Drones</Text>
+        <View style={styles.borderLine}>
+          <Text style={[styles.categoryLabel, {color: '#5956E9'}]}>
+            Wearable
+          </Text>
+        </View>
+        <Text style={[styles.categoryLabel, {marginRight: 25}]}>Laptops</Text>
+        <Text style={[styles.categoryLabel, {marginRight: 25}]}>Phones</Text>
+        <Text style={[styles.categoryLabel, {marginRight: 25}]}>Drones</Text>
       </ScrollView>
       {loading ? (
         <ActivityIndicator size="small" color="#C1C6CF" />
@@ -86,7 +89,7 @@ const HomeScreenScreen = () => {
       ) : (
         <Text style={styles.nomatcheslabel}>No matches found.</Text>
       )}
-      <View style={styles.tabBar} />
+      {/* <View style={styles.tabBar} /> */}
     </SafeAreaView>
   );
 };
@@ -107,25 +110,34 @@ const styles = StyleSheet.create({
     marginBottom: 30,
     fontSize: 18,
     color: '#868686',
-    fontWeight: '600',
+    fontWeight: '500',
     marginHorizontal: 20,
+    fontFamily: 'Raleway-Bold',
   },
   viewLabel: {
     width: '70%',
     marginBottom: 50,
     marginHorizontal: 20,
+    fontFamily: 'Raleway-Bold',
   },
   label: {
     fontSize: 34,
     fontWeight: '700',
     letterSpacing: 1,
+    fontFamily: 'Raleway-Bold',
   },
   categoryLabel: {
-    marginRight: 20,
     fontSize: 18,
     fontWeight: '600',
     color: '#9A9A9D',
-    marginLeft: 20,
+    fontFamily: 'Raleway-Bold',
+    paddingBottom: 10,
+  },
+  borderLine: {
+    borderBottomColor: '#5956E9',
+    borderBottomWidth: 2,
+    marginLeft: 25,
+    marginRight: 25,
   },
   categories: {
     marginBottom: 0,
@@ -140,6 +152,7 @@ const styles = StyleSheet.create({
     fontSize: 22,
     marginLeft: '28%',
     paddingTop: 50,
+    fontFamily: 'Raleway-Bold',
   },
   tabBar: {
     height: 200,

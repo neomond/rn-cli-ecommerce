@@ -1,5 +1,3 @@
-import {RouteProp} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import React, {useState} from 'react';
 import {
   View,
@@ -11,25 +9,23 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
+import {Product} from './HomeScreen';
 
-// type RootStackParamList = {
-//   Basket: {basket: string[]};
-// };
+interface BasketItem {
+  detail: Product;
+}
 
-// type BasketScreenRouteProp = RouteProp<RootStackParamList, 'Basket'>;
+export interface BasketScreenProps {
+  route: {
+    params: {
+      basket: BasketItem[];
+      setBasket: (basket: BasketItem[]) => void;
+    };
+  };
+}
 
-// type BasketScreenNavigationProp = NativeStackNavigationProp<
-//   RootStackParamList,
-//   'Basket'
-// >;
-
-// type Props = {
-//   route: BasketScreenRouteProp;
-//   navigation: BasketScreenNavigationProp;
-// };
-
-const BasketScreen = ({route}: any): any => {
-  const {basket} = route.params;
+const BasketScreen: React.FC<BasketScreenProps | any> = ({route}: any): any => {
+  const {basket, setBasket} = route?.params;
 
   const [itemQuantities, setItemQuantities] = useState<number[]>(
     Array(basket.length).fill(1),
@@ -47,7 +43,19 @@ const BasketScreen = ({route}: any): any => {
     setItemQuantities(newQuantities);
   };
 
-  const renderItem = ({item, index}: {item: any; index: number}) => (
+  const totalPrice: number = basket.reduce(
+    (acc: number, curr: BasketItem, index: number) => {
+      return acc + curr.detail.price * itemQuantities[index];
+    },
+    0,
+  );
+  const handleRemoveItem = (index: number) => {
+    const newBasket = [...basket];
+    newBasket.splice(index, 1);
+    setBasket(newBasket);
+  };
+
+  const renderItem = ({item, index}: {item: BasketItem; index: number}) => (
     <View style={styles.renderedItemsWrapper}>
       <Image
         source={{uri: item.detail?.prodImage}}
@@ -55,7 +63,7 @@ const BasketScreen = ({route}: any): any => {
       />
       <View style={styles.itemsRenText}>
         <Text style={styles.itemRenMain}>{item.detail?.brand}</Text>
-        <Text style={styles.itemRenPrice}>${item.detail?.price}</Text>
+        <Text style={styles.itemRenPrice}>${totalPrice}</Text>
         <View style={styles.quantitiWrapper}>
           <Text style={styles.incrQuantity}>Quantity</Text>
 
@@ -109,7 +117,8 @@ export default BasketScreen;
 const styles = StyleSheet.create({
   root: {
     paddingHorizontal: 40,
-    backgroundColor: '#f2f2f2',
+    backgroundColor: '#fff',
+    flex: 1,
   },
   header: {
     alignItems: 'center',

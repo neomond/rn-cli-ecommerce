@@ -45,10 +45,11 @@ const styles = StyleSheet.create({
     fontSize: 65,
     color: '#FFFFFF',
     paddingTop: 75,
-    fontWeight: '700',
+    fontWeight: '800',
     letterSpacing: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    fontFamily: 'Raleway-ExtraBold',
   },
   button: {
     backgroundColor: '#fff',
@@ -63,5 +64,6 @@ const styles = StyleSheet.create({
     color: '#5956E9',
     fontSize: 20,
     fontWeight: '600',
+    fontFamily: 'Raleway-ExtraBold',
   },
 });
