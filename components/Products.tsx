@@ -5,6 +5,7 @@ import {useNavigation} from '@react-navigation/native';
 
 const Products = ({item}: any): any => {
   const navigation = useNavigation();
+
   const goToDetail = (id: number): any => {
     navigation.navigate('Details', {id: id});
   };
@@ -51,14 +52,14 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
     borderRadius: 20,
     paddingHorizontal: 60,
-    paddingVertical: 20,
+    paddingVertical: 30,
     alignItems: 'center',
     justifyContent: 'space-between',
   },
   prodComponent: {
     alignItems: 'center',
     paddingTop: 130,
-    paddingBottom: 20,
+    paddingBottom: 30,
   },
   imgWrapper: {
     position: 'absolute',
@@ -71,7 +72,8 @@ const styles = StyleSheet.create({
   toplabel: {
     fontSize: 22,
     color: '#000',
-    paddingBottom: 5,
+    paddingBottom: 8,
+    fontWeight: '600',
     fontFamily: 'Raleway-Bold',
   },
   middlelabel: {

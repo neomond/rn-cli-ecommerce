@@ -86,7 +86,6 @@ const DetailsScreen: React.FC<any> = ({route, navigation}: any): any => {
         setLoading(true);
       }
     };
-
     fetchDetails();
   }, [id]);
 
@@ -288,9 +287,9 @@ const styles = StyleSheet.create({
   addBtn: {
     alignItems: 'center',
     justifyContent: 'center',
-    marginHorizontal: '20%',
-    marginBottom: 50,
-    paddingVertical: 12,
+    // marginHorizontal: '10%',
+    marginBottom: 30,
+    paddingVertical: 20,
     borderRadius: 10,
     backgroundColor: '#5956E9',
   },

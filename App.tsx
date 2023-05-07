@@ -43,7 +43,7 @@ function HomeStack() {
   return (
     <HomeScreenStack.Navigator screenOptions={{headerShown: false}}>
       <HomeScreenStack.Screen name="HomeStack" component={HomeScreenScreen} />
-      <HomeScreenStack.Screen name="Details" component={DetailsScreen} />
+      <HomeScreenStack.Screen name="Details" component={DetailsScreen as any} />
     </HomeScreenStack.Navigator>
   );
 }

@@ -25,11 +25,11 @@ export interface BasketScreenProps {
 }
 
 const BasketScreen: React.FC<BasketScreenProps | any> = ({route}: any): any => {
-  const {basket, setBasket} = route?.params;
+  const {basket, setBasket} = route.params;
 
   const [itemQuantities, setItemQuantities] = useState<number[]>(
     Array(basket.length).fill(1),
-  ); // initialize all quantities to 1
+  );
 
   const handleIncreaseQuantity = (index: number) => {
     const newQuantities = [...itemQuantities];
@@ -43,15 +43,14 @@ const BasketScreen: React.FC<BasketScreenProps | any> = ({route}: any): any => {
     setItemQuantities(newQuantities);
   };
 
-  const totalPrice: number = basket.reduce(
-    (acc: number, curr: BasketItem, index: number) => {
+  const totalPrice: number =
+    basket?.reduce((acc: number, curr: BasketItem, index: number) => {
       return acc + curr.detail.price * itemQuantities[index];
-    },
-    0,
-  );
+    }, 0) || 0;
+
   const handleRemoveItem = (index: number) => {
     const newBasket = [...basket];
-    newBasket.splice(index, 1);
+    newBasket?.splice(index, 1);
     setBasket(newBasket);
   };
 
@@ -88,24 +87,35 @@ const BasketScreen: React.FC<BasketScreenProps | any> = ({route}: any): any => {
       <View style={styles.header}>
         <Text style={styles.headerText}>Basket</Text>
       </View>
-      <View>
-        <View style={styles.notif}>
-          <Feather name="bell" size={20} />
-          <Text style={styles.notifText}>
-            Delivery for FREE until the end of the month
-          </Text>
-        </View>
+      <View style={{justifyContent: 'space-between'}}>
         <View>
-          {basket.length > 0 ? (
-            <FlatList
-              style={styles.renderedItems}
-              data={basket}
-              renderItem={renderItem}
-              keyExtractor={(item, index) => index.toString()}
-            />
-          ) : (
-            <Text>Your basket is empty.</Text>
-          )}
+          <View style={styles.notif}>
+            <Feather name="bell" size={20} />
+            <Text style={styles.notifText}>
+              Delivery for FREE until the end of the month
+            </Text>
+          </View>
+          <View>
+            {basket.length > 0 ? (
+              <FlatList
+                style={styles.renderedItems}
+                data={basket}
+                renderItem={renderItem}
+                keyExtractor={(item, index) => index.toString()}
+              />
+            ) : (
+              <Text>Your basket is empty.</Text>
+            )}
+          </View>
+        </View>
+        <View style={{paddingTop: '65%'}}>
+          <View style={styles.totalCount}>
+            <Text style={styles.totalLabel}>Total</Text>
+            <Text style={styles.totalPrice}>${totalPrice}</Text>
+          </View>
+          <TouchableOpacity style={styles.checkout}>
+            <Text style={styles.checkoutLabel}>Checkout</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </SafeAreaView>
@@ -205,5 +215,37 @@ const styles = StyleSheet.create({
   counter: {
     fontSize: 15,
     fontWeight: '500',
+  },
+  totalCount: {
+    paddingHorizontal: 40,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 30,
+  },
+  totalLabel: {
+    fontFamily: 'Raleway-Bold',
+    fontSize: 17,
+    fontWeight: '400',
+  },
+  totalPrice: {
+    fontFamily: 'Raleway-Bold',
+    fontSize: 20,
+    fontWeight: '700',
+    color: '#5956E9',
+  },
+  checkout: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    // marginHorizontal: '20%',
+    marginHorizontal: 35,
+    paddingVertical: 20,
+    borderRadius: 10,
+    backgroundColor: '#5956E9',
+  },
+  checkoutLabel: {
+    color: '#fff',
+    fontSize: 20,
+    fontWeight: '600',
   },
 });
