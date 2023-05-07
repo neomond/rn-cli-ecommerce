@@ -2,6 +2,7 @@ import {Image, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import Profile from '../assets/images/profile.svg';
 
 const ProfileScreen = () => {
   return (
@@ -10,6 +11,7 @@ const ProfileScreen = () => {
       <View style={styles.itemWrapper}>
         <View style={styles.profileImg}>
           <Image source={require('../assets/images/profilePic.png')} />
+          {/* <Profile width={120} height={120} /> */}
         </View>
         <Text style={styles.profName}>Rosina Doe</Text>
         <View style={styles.contprof}>

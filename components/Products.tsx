@@ -1,6 +1,7 @@
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {useNavigation} from '@react-navigation/native';
+// import Profile from '../assets/images/profile.svg';
 
 const Products = ({item}: any): any => {
   const navigation = useNavigation();

@@ -39,13 +39,13 @@ const BasketScreen: React.FC<BasketScreenProps | any> = ({route}: any): any => {
 
   const handleDecreaseQuantity = (index: number) => {
     const newQuantities = [...itemQuantities];
-    newQuantities[index] = Math.max(newQuantities[index] - 1, 1); // ensure quantity is at least 1
+    newQuantities[index] = Math.max(newQuantities[index] - 1, 1);
     setItemQuantities(newQuantities);
   };
 
   const totalPrice: number =
     basket?.reduce((acc: number, curr: BasketItem, index: number) => {
-      return acc + curr.detail?.price * itemQuantities[index];
+      return acc + curr.detail.price * itemQuantities[index];
     }, 0) || 0;
 
   // const handleRemoveItem = (index: number) => {
@@ -108,7 +108,7 @@ const BasketScreen: React.FC<BasketScreenProps | any> = ({route}: any): any => {
             )}
           </View>
         </View>
-        <View style={{paddingTop: '65%'}}>
+        <View style={{marginTop: '65%'}}>
           <View style={styles.totalCount}>
             <Text style={styles.totalLabel}>Total</Text>
             <Text style={styles.totalPrice}>${totalPrice}</Text>

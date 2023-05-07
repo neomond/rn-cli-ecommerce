@@ -24,7 +24,7 @@ const FavoritesScreen: React.FC<{navigation: any}> = ({navigation}) => {
       }
       setLoading(false);
     } catch (error) {
-      setLoading(true);
+      setLoading(false);
     }
   };
 
@@ -37,43 +37,41 @@ const FavoritesScreen: React.FC<{navigation: any}> = ({navigation}) => {
       <View style={styles.header}>
         <Text style={styles.headerText}>Favorites</Text>
       </View>
-      {loading ? (
-        <ActivityIndicator size="small" color="#C1C6CF" />
-      ) : (
-        <ScrollView>
-          {favorites.length > 0 ? (
-            favorites.map(id => (
+      <ScrollView>
+        {favorites.length > 0 ? (
+          favorites.map(id => (
+            <View style={styles.rootMain}>
               <FavoriteItem navigation={navigation} key={id} id={id} />
-            ))
-          ) : (
-            <View style={styles.noFavWrapper}>
-              <View style={styles.imagesFav}>
-                <Image
-                  style={{width: 48, height: 69}}
-                  source={require('../assets/images/Saly-10.png')}
-                />
-                <Image
-                  style={{marginTop: 40, width: 246, height: 352}}
-                  source={require('../assets/images/Sally-4.png')}
-                />
-              </View>
-              <Text style={styles.noFav}>No favorites yet</Text>
-              <Text style={styles.noFavStart}>
-                Hit the button down below to Create an order
-              </Text>
-              <TouchableOpacity
-                style={styles.startOrderBtn}
-                onPress={() => navigation.navigate('Details')}>
-                <Text style={styles.startOrderBtnText}>Start ordering</Text>
-              </TouchableOpacity>
             </View>
-          )}
-        </ScrollView>
-      )}
+          ))
+        ) : (
+          <View style={styles.noFavWrapper}>
+            <View style={styles.imagesFav}>
+              <Image
+                style={{width: 48, height: 69}}
+                source={require('../assets/images/Saly-10.png')}
+              />
+              <Image
+                style={{marginTop: 40, width: 246, height: 352}}
+                source={require('../assets/images/Sally-4.png')}
+              />
+            </View>
+            <Text style={styles.noFav}>No favorites yet</Text>
+            <Text style={styles.noFavStart}>
+              Hit the button down below to Create an order
+            </Text>
+            <TouchableOpacity
+              style={styles.startOrderBtn}
+              onPress={() => navigation.navigate('Details')}>
+              <Text style={styles.startOrderBtnText}>Start ordering</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+      </ScrollView>
     </SafeAreaView>
   );
 };
-const FavoriteItem = ({id, navigation}: {id: string; navigation: any}) => {
+const FavoriteItem = ({id, navigation}: {id: string; navigation: any}): any => {
   const [detail, setDetail] = useState<any>();
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -85,7 +83,6 @@ const FavoriteItem = ({id, navigation}: {id: string; navigation: any}) => {
       setDetail(response.data);
       setLoading(false);
     } catch (error) {
-      console.log(error);
       setLoading(true);
     }
   };
@@ -94,31 +91,55 @@ const FavoriteItem = ({id, navigation}: {id: string; navigation: any}) => {
     fetchDetails();
   }, [id]);
 
-  if (loading) {
-    return <ActivityIndicator size="small" color="#C1C6CF" />;
-  }
-
-  return (
-    <View style={styles.rootContainer}>
-      <TouchableOpacity onPress={() => navigation.navigate('Details', {id})}>
-        <View style={styles.itemsContainer}>
-          <Image
-            source={{uri: detail?.prodImage}}
-            style={styles.favoriteItemImage}
-            resizeMode="cover"
-          />
-          <View>
-            <Text style={styles.brandText}>{detail?.brand}</Text>
-            <Text style={styles.brandPrice}>From £{detail?.price}</Text>
+  if (!loading) {
+    return (
+      <View style={styles.rootContainer}>
+        <TouchableOpacity onPress={() => navigation.navigate('Details', {id})}>
+          <View style={styles.itemsContainer}>
+            <Image
+              source={{uri: detail?.prodImage}}
+              style={styles.favoriteItemImage}
+              resizeMode="cover"
+            />
+            <View>
+              <Text style={styles.brandText}>{detail?.brand}</Text>
+              <Text style={styles.brandPrice}>From £{detail?.price}</Text>
+            </View>
           </View>
-        </View>
-      </TouchableOpacity>
-    </View>
-  );
+        </TouchableOpacity>
+      </View>
+    );
+  }
+  // return (
+  //   <View style={styles.noFavWrapper}>
+  //     <View style={styles.imagesFav}>
+  //       <Image
+  //         style={{width: 48, height: 69}}
+  //         source={require('../assets/images/Saly-10.png')}
+  //       />
+  //       <Image
+  //         style={{marginTop: 40, width: 246, height: 352}}
+  //         source={require('../assets/images/Sally-4.png')}
+  //       />
+  //     </View>
+  //     <Text style={styles.noFav}>No favorites yet</Text>
+  //     <Text style={styles.noFavStart}>
+  //       Hit the button down below to Create an order
+  //     </Text>
+  //     <TouchableOpacity
+  //       style={styles.startOrderBtn}
+  //       onPress={() => navigation.navigate('Details')}>
+  //       <Text style={styles.startOrderBtnText}>Start ordering</Text>
+  //     </TouchableOpacity>
+  //   </View>
+  // );
 };
 export default FavoritesScreen;
 
 const styles = StyleSheet.create({
+  rootMain: {
+    flexDirection: 'row',
+  },
   rootContainer: {
     flex: 1,
     flexDirection: 'row',
