@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import {Product} from './HomeScreen';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface BasketItem {
   detail: Product | any;
@@ -35,12 +36,14 @@ const BasketScreen: React.FC<BasketScreenProps | any> = ({route}: any): any => {
     const newQuantities = [...itemQuantities];
     newQuantities[index] += 1;
     setItemQuantities(newQuantities);
+    AsyncStorage.setItem('basket', JSON.stringify(basket));
   };
 
   const handleDecreaseQuantity = (index: number) => {
     const newQuantities = [...itemQuantities];
     newQuantities[index] = Math.max(newQuantities[index] - 1, 1);
     setItemQuantities(newQuantities);
+    AsyncStorage.setItem('basket', JSON.stringify(basket));
   };
 
   const totalPrice: number =
@@ -52,6 +55,7 @@ const BasketScreen: React.FC<BasketScreenProps | any> = ({route}: any): any => {
   //   const newBasket = [...basket];
   //   newBasket?.splice(index, 1);
   //   setBasket(newBasket);
+  // AsyncStorage.setItem('basket', JSON.stringify(newBasket)); // Save updated basket to local storage
   // };
 
   const renderItem = ({item, index}: {item: BasketItem; index: number}) => (
@@ -148,6 +152,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     columnGap: 5,
     marginBottom: 15,
+    marginHorizontal: 35,
   },
   notifText: {
     fontWeight: '500',
