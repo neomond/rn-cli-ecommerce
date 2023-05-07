@@ -37,39 +37,39 @@ const FavoritesScreen: React.FC<{navigation: any}> = ({navigation}) => {
       <View style={styles.header}>
         <Text style={styles.headerText}>Favorites</Text>
       </View>
-      {/* {loading ? (
+      {loading ? (
         <ActivityIndicator size="small" color="#C1C6CF" />
-      ) : ( */}
-      <ScrollView>
-        {favorites.length > 0 ? (
-          favorites.map(id => (
-            <FavoriteItem navigation={navigation} key={id} id={id} />
-          ))
-        ) : (
-          <View style={styles.noFavWrapper}>
-            <View style={styles.imagesFav}>
-              <Image
-                style={{width: 48, height: 69}}
-                source={require('../assets/images/Saly-10.png')}
-              />
-              <Image
-                style={{marginTop: 40, width: 246, height: 352}}
-                source={require('../assets/images/Sally-4.png')}
-              />
+      ) : (
+        <ScrollView>
+          {favorites.length > 0 ? (
+            favorites.map(id => (
+              <FavoriteItem navigation={navigation} key={id} id={id} />
+            ))
+          ) : (
+            <View style={styles.noFavWrapper}>
+              <View style={styles.imagesFav}>
+                <Image
+                  style={{width: 48, height: 69}}
+                  source={require('../assets/images/Saly-10.png')}
+                />
+                <Image
+                  style={{marginTop: 40, width: 246, height: 352}}
+                  source={require('../assets/images/Sally-4.png')}
+                />
+              </View>
+              <Text style={styles.noFav}>No favorites yet</Text>
+              <Text style={styles.noFavStart}>
+                Hit the button down below to Create an order
+              </Text>
+              <TouchableOpacity
+                style={styles.startOrderBtn}
+                onPress={() => navigation.navigate('Details')}>
+                <Text style={styles.startOrderBtnText}>Start ordering</Text>
+              </TouchableOpacity>
             </View>
-            <Text style={styles.noFav}>No favorites yet</Text>
-            <Text style={styles.noFavStart}>
-              Hit the button down below to Create an order
-            </Text>
-            <TouchableOpacity
-              style={styles.startOrderBtn}
-              onPress={() => navigation.navigate('Details')}>
-              <Text style={styles.startOrderBtnText}>Start ordering</Text>
-            </TouchableOpacity>
-          </View>
-        )}
-      </ScrollView>
-      {/* )} */}
+          )}
+        </ScrollView>
+      )}
     </SafeAreaView>
   );
 };

@@ -12,14 +12,14 @@ import Feather from 'react-native-vector-icons/Feather';
 import {Product} from './HomeScreen';
 
 interface BasketItem {
-  detail: Product;
+  detail: Product | any;
 }
 
 export interface BasketScreenProps {
   route: {
     params: {
-      basket: BasketItem[];
-      setBasket: (basket: BasketItem[]) => void;
+      basket: BasketItem[] | any;
+      setBasket: (basket: BasketItem[] | any) => void;
     };
   };
 }
@@ -27,7 +27,7 @@ export interface BasketScreenProps {
 const BasketScreen: React.FC<BasketScreenProps | any> = ({route}: any): any => {
   const {basket, setBasket} = route.params;
 
-  const [itemQuantities, setItemQuantities] = useState<number[]>(
+  const [itemQuantities, setItemQuantities] = useState<number[] | any[]>(
     Array(basket.length).fill(1),
   );
 
@@ -45,14 +45,14 @@ const BasketScreen: React.FC<BasketScreenProps | any> = ({route}: any): any => {
 
   const totalPrice: number =
     basket?.reduce((acc: number, curr: BasketItem, index: number) => {
-      return acc + curr.detail.price * itemQuantities[index];
+      return acc + curr.detail?.price * itemQuantities[index];
     }, 0) || 0;
 
-  const handleRemoveItem = (index: number) => {
-    const newBasket = [...basket];
-    newBasket?.splice(index, 1);
-    setBasket(newBasket);
-  };
+  // const handleRemoveItem = (index: number) => {
+  //   const newBasket = [...basket];
+  //   newBasket?.splice(index, 1);
+  //   setBasket(newBasket);
+  // };
 
   const renderItem = ({item, index}: {item: BasketItem; index: number}) => (
     <View style={styles.renderedItemsWrapper}>

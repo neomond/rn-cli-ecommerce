@@ -12,13 +12,9 @@ import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {Product} from './HomeScreen';
 
-interface DetailsScreenProps {
-  route: {params: {id: string}};
-  navigation: any;
-}
-
-const DetailsScreen: React.FC<DetailsScreenProps> = ({route, navigation}) => {
+const DetailsScreen: React.FC<any> = ({route, navigation}: any): any => {
   const [basket, setBasket] = useState<any[]>([]);
   const [detail, setDetail] = useState<any>();
   const [loading, setLoading] = useState<boolean>(true);
@@ -26,60 +22,30 @@ const DetailsScreen: React.FC<DetailsScreenProps> = ({route, navigation}) => {
 
   const {id} = route.params;
 
-  useEffect(() => {
-    const fetchDetails = async () => {
-      try {
-        const response = await axios.get<any>(
-          `https://64554565a74f994b3356cc6f.mockapi.io/products/${id}`,
-        );
-        setDetail(response.data);
-        setLoading(false);
-      } catch (error) {
-        console.log(error);
-        setLoading(true);
-      }
-    };
-    fetchDetails();
-  }, [id]);
-
-  useEffect(() => {
-    const fetchDetailsFromStorage = async () => {
-      try {
-        const storedDetail = await AsyncStorage.getItem(`product_${id}`);
-        if (storedDetail) {
-          setDetail(JSON.parse(storedDetail));
-        }
-        setLoading(false);
-      } catch (error) {
-        console.log(error);
-        setLoading(true);
-      }
-    };
-    fetchDetailsFromStorage();
-  }, [id]);
-
-  useEffect(() => {
-    const fetchFavorites = async () => {
-      try {
-        const favoritesJson = await AsyncStorage.getItem('favorites');
-        const favorites = favoritesJson ? JSON.parse(favoritesJson) : [];
-        setIsFavorite(favorites.includes(id));
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchFavorites();
-  }, [id]);
-
-  const handleAddToBasket = async () => {
+  const handleAddToBasket = () => {
     setBasket(prevBasket => [...prevBasket, id]);
+    AsyncStorage.setItem(`product_${id}`, JSON.stringify(detail));
+    navigation.navigate('Basket', {
+      basket: [...basket, {id, detail}],
+    });
+  };
+
+  const fetchDetailsFromStorage = async () => {
     try {
-      await AsyncStorage.setItem(`product_${id}`, JSON.stringify(detail));
-      navigation.navigate('Basket', {basket: [...basket, {id, detail}]});
+      const storedDetail = await AsyncStorage.getItem(`product_${id}`);
+      if (storedDetail) {
+        setDetail(JSON.parse(storedDetail));
+      }
+      setLoading(false);
     } catch (error) {
       console.log(error);
+      setLoading(true);
     }
   };
+
+  useEffect(() => {
+    fetchDetailsFromStorage();
+  }, []);
 
   const handleAddToFavorites = async () => {
     try {
@@ -106,6 +72,36 @@ const DetailsScreen: React.FC<DetailsScreenProps> = ({route, navigation}) => {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    const fetchDetails = async () => {
+      try {
+        const response = await axios.get(
+          `https://64554565a74f994b3356cc6f.mockapi.io/products/${id}`,
+        );
+        setDetail(response.data);
+        setLoading(false);
+      } catch (error) {
+        console.log(error);
+        setLoading(true);
+      }
+    };
+    fetchDetails();
+  }, [id]);
+
+  useEffect(() => {
+    const fetchFavorites = async () => {
+      try {
+        const favoritesJson = await AsyncStorage.getItem('favorites');
+        const favorites = favoritesJson ? JSON.parse(favoritesJson) : [];
+        setIsFavorite(favorites.includes(id));
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchFavorites();
+  }, [id]);
 
   return (
     <SafeAreaView style={styles.rootContainer}>

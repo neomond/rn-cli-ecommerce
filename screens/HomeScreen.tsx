@@ -67,15 +67,18 @@ const HomeScreenScreen = () => {
       <View style={styles.viewLabel}>
         <Text style={styles.label}>Order online collect in store</Text>
       </View>
-      <ScrollView horizontal={true} style={styles.categories}>
+      <ScrollView
+        horizontal={true}
+        showsHorizontalScrollIndicator={false}
+        style={styles.categories}>
         <View style={styles.borderLine}>
           <Text style={[styles.categoryLabel, {color: '#5956E9'}]}>
             Wearable
           </Text>
         </View>
-        <Text style={[styles.categoryLabel, {marginRight: 25}]}>Laptops</Text>
-        <Text style={[styles.categoryLabel, {marginRight: 25}]}>Phones</Text>
-        <Text style={[styles.categoryLabel, {marginRight: 25}]}>Drones</Text>
+        <Text style={[styles.categoryLabel, {marginRight: 35}]}>Laptops</Text>
+        <Text style={[styles.categoryLabel, {marginRight: 35}]}>Phones</Text>
+        <Text style={[styles.categoryLabel, {marginRight: 35}]}>Drones</Text>
       </ScrollView>
       {loading ? (
         <ActivityIndicator size="small" color="#C1C6CF" />
@@ -137,7 +140,7 @@ const styles = StyleSheet.create({
     borderBottomColor: '#5956E9',
     borderBottomWidth: 2,
     marginLeft: 25,
-    marginRight: 25,
+    marginRight: 35,
   },
   categories: {
     marginBottom: 0,
