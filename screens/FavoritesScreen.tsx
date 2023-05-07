@@ -12,7 +12,7 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 
-const FavoritesScreen: React.FC = ({id, navigation}: any): any => {
+const FavoritesScreen: React.FC<{navigation: any}> = ({navigation}) => {
   const [favorites, setFavorites] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -24,7 +24,6 @@ const FavoritesScreen: React.FC = ({id, navigation}: any): any => {
       }
       setLoading(false);
     } catch (error) {
-      console.log(error);
       setLoading(true);
     }
   };
@@ -38,39 +37,39 @@ const FavoritesScreen: React.FC = ({id, navigation}: any): any => {
       <View style={styles.header}>
         <Text style={styles.headerText}>Favorites</Text>
       </View>
-      {loading ? (
+      {/* {loading ? (
         <ActivityIndicator size="small" color="#C1C6CF" />
-      ) : (
-        <ScrollView>
-          {favorites.length > 0 ? (
-            favorites.map(id => (
-              <FavoriteItem navigation={navigation} key={id} id={id} />
-            ))
-          ) : (
-            <View style={styles.noFavWrapper}>
-              <View style={styles.imagesFav}>
-                <Image
-                  style={{width: 48, height: 69}}
-                  source={require('../assets/images/Saly-10.png')}
-                />
-                <Image
-                  style={{marginTop: 40, width: 246, height: 352}}
-                  source={require('../assets/images/Sally-4.png')}
-                />
-              </View>
-              <Text style={styles.noFav}>No favorites yet</Text>
-              <Text style={styles.noFavStart}>
-                Hit the button down below to Create an order
-              </Text>
-              <TouchableOpacity
-                style={styles.startOrderBtn}
-                onPress={() => navigation.navigate('Details')}>
-                <Text style={styles.startOrderBtnText}>Start ordering</Text>
-              </TouchableOpacity>
+      ) : ( */}
+      <ScrollView>
+        {favorites.length > 0 ? (
+          favorites.map(id => (
+            <FavoriteItem navigation={navigation} key={id} id={id} />
+          ))
+        ) : (
+          <View style={styles.noFavWrapper}>
+            <View style={styles.imagesFav}>
+              <Image
+                style={{width: 48, height: 69}}
+                source={require('../assets/images/Saly-10.png')}
+              />
+              <Image
+                style={{marginTop: 40, width: 246, height: 352}}
+                source={require('../assets/images/Sally-4.png')}
+              />
             </View>
-          )}
-        </ScrollView>
-      )}
+            <Text style={styles.noFav}>No favorites yet</Text>
+            <Text style={styles.noFavStart}>
+              Hit the button down below to Create an order
+            </Text>
+            <TouchableOpacity
+              style={styles.startOrderBtn}
+              onPress={() => navigation.navigate('Details')}>
+              <Text style={styles.startOrderBtnText}>Start ordering</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+      </ScrollView>
+      {/* )} */}
     </SafeAreaView>
   );
 };
@@ -120,11 +119,6 @@ const FavoriteItem = ({id, navigation}: {id: string; navigation: any}) => {
 export default FavoritesScreen;
 
 const styles = StyleSheet.create({
-  // tabBar: {
-  //   height: 200,
-  //   paddingTop: 110,
-  //   backgroundColor: '#fff',
-  // },
   rootContainer: {
     flex: 1,
     flexDirection: 'row',
