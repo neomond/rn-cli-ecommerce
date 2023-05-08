@@ -26,7 +26,7 @@ export interface BasketScreenProps {
 }
 
 const BasketScreen: React.FC<BasketScreenProps | any> = ({route}: any): any => {
-  const {basket, setBasket} = route.params;
+  const {basket} = route.params;
 
   const [itemQuantities, setItemQuantities] = useState<number[] | any[]>(
     Array(basket.length).fill(1),

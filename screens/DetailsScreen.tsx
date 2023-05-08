@@ -12,7 +12,6 @@ import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {Product} from './HomeScreen';
 
 const DetailsScreen: React.FC<any> = ({route, navigation}: any): any => {
   const [basket, setBasket] = useState<any[]>([]);

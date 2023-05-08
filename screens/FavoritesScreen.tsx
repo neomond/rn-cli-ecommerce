@@ -11,11 +11,12 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
+import {useIsFocused} from '@react-navigation/native';
 
 const FavoritesScreen: React.FC<{navigation: any}> = ({navigation}) => {
   const [favorites, setFavorites] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-
+  const isFocused = useIsFocused();
   const fetchFavoritesFromStorage = async () => {
     try {
       const favoritesJson = await AsyncStorage.getItem('favorites');
@@ -29,8 +30,10 @@ const FavoritesScreen: React.FC<{navigation: any}> = ({navigation}) => {
   };
 
   useEffect(() => {
-    fetchFavoritesFromStorage();
-  }, []);
+    if (isFocused) {
+      fetchFavoritesFromStorage();
+    }
+  }, [isFocused]);
 
   return (
     <SafeAreaView>
@@ -40,7 +43,7 @@ const FavoritesScreen: React.FC<{navigation: any}> = ({navigation}) => {
       <ScrollView>
         {favorites.length > 0 ? (
           favorites.map(id => (
-            <View style={styles.rootMain}>
+            <View key={id} style={styles.rootMain}>
               <FavoriteItem navigation={navigation} key={id} id={id} />
             </View>
           ))

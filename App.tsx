@@ -68,8 +68,6 @@ function TabNavigator() {
             }
             return {
               borderTopWidth: 0,
-              height: 150,
-              paddingTop: 70,
             };
           })(route),
           tabBarIcon: ({focused}) => (
